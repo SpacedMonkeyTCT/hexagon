@@ -29,11 +29,11 @@ func New(r int) Hexagon {
 
 // DrawTo draws the hexagon to an IMDraw at x, y, centered at O
 // in this orientation:
-//      *
-//    *   *
-//      O
-//    *   *
-//      *
+//        *
+//    *       *
+//        O
+//    *       *
+//        *
 func (h Hexagon) DrawTo(imd *imdraw.IMDraw, x, y int) {
 	xf := float64(x)
 	yf := float64(y)
