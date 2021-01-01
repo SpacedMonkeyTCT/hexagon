@@ -34,8 +34,6 @@ func run() {
 
 	for !win.Closed() {
 		win.Clear(colornames.Aliceblue)
-		imd.Color = colornames.Limegreen
-		imd.EndShape = imdraw.RoundEndShape
 		hm.DrawTo(imd)
 		imd.Draw(win)
 		win.Update()

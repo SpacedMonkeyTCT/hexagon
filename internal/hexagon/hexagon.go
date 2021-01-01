@@ -37,6 +37,7 @@ func New(r int) Hexagon {
 func (h Hexagon) DrawTo(imd *imdraw.IMDraw, x, y int) {
 	xf := float64(x)
 	yf := float64(y)
+	imd.EndShape = imdraw.RoundEndShape
 	imd.Push(pixel.V(xf, yf+h.r), pixel.V(xf+h.dx, yf+h.dy))
 	imd.Push(pixel.V(xf+h.dx, yf-h.dy), pixel.V(xf, yf-h.r))
 	imd.Push(pixel.V(xf-h.dx, yf-h.dy), pixel.V(xf-h.dx, yf+h.dy))

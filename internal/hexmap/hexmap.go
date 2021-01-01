@@ -6,6 +6,7 @@ import (
 
 	"github.com/SpacedMonkeyTCT/hexagon/internal/hexagon"
 	"github.com/faiface/pixel/imdraw"
+	"golang.org/x/image/colornames"
 )
 
 // HexMap draws map of hexagons to an IMDraw, scaled to fit given dimensions
@@ -49,6 +50,8 @@ func New(w, h int) HexMap {
 //     * * * * *
 //    * * * * *
 func (hm HexMap) DrawTo(imd *imdraw.IMDraw) {
+	imd.Color = colornames.Limegreen
+
 	for y := 0; y < mapH; y++ {
 		for x := 0; x < mapW; x++ {
 			xs, ys := hm.toScreen(x, y)
