@@ -2,6 +2,7 @@
 package main
 
 import (
+	"github.com/SpacedMonkeyTCT/hexagon/internal/creature"
 	"github.com/SpacedMonkeyTCT/hexagon/internal/hexmap"
 	"github.com/faiface/pixel"
 	"github.com/faiface/pixel/imdraw"
@@ -31,10 +32,16 @@ func run() {
 
 	imd := imdraw.New(nil)
 	hm := hexmap.New(width, height)
+	c := creature.New(hm)
+	//nm := navmesh.NewHexMap(5, 4)
+	//as := navmesh.NewAstar(nm.GetStart(), nm.GetEnd())
 
 	for !win.Closed() {
 		win.Clear(colornames.Aliceblue)
+		c.Update()
+		imd.Clear()
 		hm.DrawTo(imd)
+		c.DrawTo(imd)
 		imd.Draw(win)
 		win.Update()
 	}

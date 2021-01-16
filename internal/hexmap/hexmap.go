@@ -11,12 +11,14 @@ import (
 
 // HexMap draws map of hexagons to an IMDraw, scaled to fit given dimensions
 type HexMap struct {
-	hex     hexagon.Hexagon
-	size    int
-	originX int
-	originY int
-	offsetX int
-	offsetY int
+	hex       hexagon.Hexagon
+	originX   int
+	originY   int
+	offsetX   int
+	offsetY   int
+	Size      int
+	MapWidth  int
+	MapHeight int
 }
 
 const (
@@ -34,12 +36,14 @@ func New(w, h int) HexMap {
 	screenH := mapH * offsetY
 
 	return HexMap{
-		hex:     hexagon.New(size),
-		size:    size,
-		originX: (w - screenW + size) / 2,
-		originY: (h - screenH + offsetY) / 2,
-		offsetX: offsetX,
-		offsetY: offsetY,
+		hex:       hexagon.New(size),
+		originX:   (w - screenW + size) / 2,
+		originY:   (h - screenH + offsetY) / 2,
+		offsetX:   offsetX,
+		offsetY:   offsetY,
+		Size:      size,
+		MapWidth:  mapW,
+		MapHeight: mapH,
 	}
 }
 
@@ -54,15 +58,15 @@ func (hm HexMap) DrawTo(imd *imdraw.IMDraw) {
 
 	for y := 0; y < mapH; y++ {
 		for x := 0; x < mapW; x++ {
-			xs, ys := hm.toScreen(x, y)
+			xs, ys := hm.ToScreen(x, y)
 			hm.hex.DrawTo(imd, xs, ys)
 		}
 	}
 }
 
 // toScreen converts map coords to screen coords
-func (hm HexMap) toScreen(x, y int) (int, int) {
-	xs := hm.originX + hm.offsetX*x + hm.size*(y%2)
+func (hm HexMap) ToScreen(x, y int) (int, int) {
+	xs := hm.originX + hm.offsetX*x + hm.Size*(y%2)
 	ys := hm.originY + hm.offsetY*y
 	return xs, ys
 }
