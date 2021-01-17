@@ -16,9 +16,9 @@ type Creature struct {
 	hex     hexagon.Hexagon
 	hm      *hexmap.HexMap
 	n       navigation.Navigation
+	waitFor int
 	x       int
 	y       int
-	waitFor int
 	endX    int
 	endY    int
 	path    []pixel.Vec
@@ -34,10 +34,12 @@ func New(hm *hexmap.HexMap, n navigation.Navigation) *Creature {
 		hex:     hexagon.New(hm.Size / 2),
 		hm:      hm,
 		n:       n,
-		x:       0,
-		y:       0,
 		waitFor: delay,
-		path:    nil,
+		x:       0,
+		y:       hm.MapHeight - 2,
+		endX:    hm.MapWidth - 1,
+		endY:    hm.MapHeight - 1,
+		path:    n.Find(0, hm.MapHeight-2, hm.MapWidth-1, hm.MapHeight-1),
 	}
 }
 
