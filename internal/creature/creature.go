@@ -49,9 +49,9 @@ func (c *Creature) Update() {
 	c.waitFor = delay
 
 	for len(c.path) == 0 {
-		c.endX = rand.Intn(c.n.MapWidth)
-		c.endY = rand.Intn(c.n.MapHeight)
-		if c.n.IsWall(c.endX, c.endY) {
+		c.endX = rand.Intn(c.hm.MapWidth)
+		c.endY = rand.Intn(c.hm.MapHeight)
+		if c.hm.IsWall(c.endX, c.endY) {
 			continue
 		}
 

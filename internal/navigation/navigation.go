@@ -6,25 +6,13 @@ import (
 )
 
 type Navigation struct {
-	mesh      Mesh
-	MapWidth  int
-	MapHeight int
+	mesh Mesh
 }
 
 func NewNavigation(hm *hexmap.HexMap) Navigation {
 	return Navigation{
-		mesh:      newMesh(hm),
-		MapWidth:  hm.MapWidth,
-		MapHeight: hm.MapHeight,
+		mesh: newMesh(hm),
 	}
-}
-
-func (n Navigation) SetWall(c, r int) {
-	n.mesh.setWall(c, r)
-}
-
-func (n Navigation) IsWall(c, r int) bool {
-	return n.mesh.isWall(c, r)
 }
 
 func (n Navigation) Find(fromX, fromY, toX, toY int) []pixel.Vec {

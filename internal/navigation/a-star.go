@@ -25,9 +25,6 @@ func (a *Astar) search() *node {
 	a.closed[candidate.node] = struct{}{}
 
 	for _, neighbour := range candidate.node.neighbours {
-		if neighbour.isWall {
-			continue
-		}
 		if _, closed := a.closed[neighbour]; closed {
 			continue
 		}
