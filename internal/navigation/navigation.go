@@ -3,30 +3,30 @@ package navigation
 import "github.com/faiface/pixel"
 
 type Navigation struct {
-	hexmap    HexMap
+	mesh      Mesh
 	MapWidth  int
 	MapHeight int
 }
 
 func NewNavigation(cols, rows int) Navigation {
 	return Navigation{
-		hexmap:    newHexMap(cols, rows),
+		mesh:      newMesh(cols, rows),
 		MapWidth:  cols,
 		MapHeight: rows,
 	}
 }
 
 func (n Navigation) SetWall(c, r int) {
-	n.hexmap.setWall(c, r)
+	n.mesh.setWall(c, r)
 }
 
 func (n Navigation) IsWall(c, r int) bool {
-	return n.hexmap.isWall(c, r)
+	return n.mesh.isWall(c, r)
 }
 
 func (n Navigation) Find(fromX, fromY, toX, toY int) []pixel.Vec {
-	start := n.hexmap.node[fromX][fromY]
-	end := n.hexmap.node[toX][toY]
+	start := n.mesh.node[fromX][fromY]
+	end := n.mesh.node[toX][toY]
 	as := newAstar(start, end)
 
 	var p *node = nil
