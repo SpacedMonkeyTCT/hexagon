@@ -1,27 +1,29 @@
 package navigation
 
+import "github.com/SpacedMonkeyTCT/hexagon/internal/hexmap"
+
 type Mesh struct {
 	cols int
 	rows int
 	node [][]*node
 }
 
-func newMesh(cols, rows int) Mesh {
+func newMesh(hm *hexmap.HexMap) Mesh {
 	nm := Mesh{
-		cols: cols,
-		rows: rows,
+		cols: hm.MapWidth,
+		rows: hm.MapHeight,
 	}
 
-	nm.node = make([][]*node, cols)
-	for c := 0; c < cols; c++ {
-		nm.node[c] = make([]*node, rows)
-		for r := 0; r < rows; r++ {
+	nm.node = make([][]*node, nm.cols)
+	for c := 0; c < nm.cols; c++ {
+		nm.node[c] = make([]*node, nm.rows)
+		for r := 0; r < nm.rows; r++ {
 			nm.node[c][r] = newNode(c, r)
 		}
 	}
 
-	for c := 0; c < cols; c++ {
-		for r := 0; r < rows; r++ {
+	for c := 0; c < nm.cols; c++ {
+		for r := 0; r < nm.rows; r++ {
 			nm.joinNeighbours(c, r)
 		}
 	}

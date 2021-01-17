@@ -13,7 +13,7 @@ type Navigation struct {
 
 func NewNavigation(hm *hexmap.HexMap) Navigation {
 	return Navigation{
-		mesh:      newMesh(hm.MapWidth, hm.MapHeight),
+		mesh:      newMesh(hm),
 		MapWidth:  hm.MapWidth,
 		MapHeight: hm.MapHeight,
 	}
