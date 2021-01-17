@@ -28,11 +28,14 @@ func (a *Astar) search() *node {
 		if _, closed := a.closed[neighbour]; closed {
 			continue
 		}
+		nextCandidate := a.open.get(neighbour)
+		if nextCandidate == nil {
+			nextCandidate = newCandidate(neighbour)
+		}
 
-		nextCandidate := newCandidate(neighbour)
 		score := nextCandidate.calcScore(candidate, a.end)
 		if score < nextCandidate.score || !a.open.includes(nextCandidate) {
-			nextCandidate.update(candidate, score)
+			nextCandidate.update(candidate, a.end)
 			neighbour.setParent(candidate.node)
 
 			if !a.open.includes(nextCandidate) {

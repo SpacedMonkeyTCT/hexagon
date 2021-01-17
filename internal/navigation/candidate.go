@@ -5,21 +5,26 @@ import (
 )
 
 type candidate struct {
-	node          *node
-	distFromStart int
-	score         int
+	node  *node
+	dfs   int
+	dte   int
+	score int
 }
 
 func newCandidate(n *node) *candidate {
 	return &candidate{
-		node:          n,
-		distFromStart: 0,
-		score:         0,
+		node: n,
+		dfs:  0,
+		dte:  0,
 	}
 }
 
 func (c candidate) calcScore(prev *candidate, end *node) int {
-	return c.guessDistTo(end) + c.calcDFS(prev)
+	return c.calcDfs(prev) + c.guessDistTo(end)
+}
+
+func (c candidate) calcDfs(prev *candidate) int {
+	return prev.dfs + 10
 }
 
 func (c candidate) guessDistTo(end *node) int {
@@ -30,11 +35,8 @@ func (c candidate) guessDistTo(end *node) int {
 	return int(xd + yd)
 }
 
-func (c candidate) calcDFS(prev *candidate) int {
-	return prev.distFromStart + 10
-}
-
-func (c *candidate) update(prev *candidate, score int) {
-	c.distFromStart = c.calcDFS(prev)
-	c.score = score
+func (c *candidate) update(prev *candidate, end *node) {
+	c.dfs = c.calcDfs(prev)
+	c.dte = c.guessDistTo(end)
+	c.score = c.dfs + c.dte
 }
