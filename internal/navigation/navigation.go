@@ -3,12 +3,16 @@ package navigation
 import "github.com/faiface/pixel"
 
 type Navigation struct {
-	hexmap HexMap
+	hexmap    HexMap
+	MapWidth  int
+	MapHeight int
 }
 
 func NewNavigation(cols, rows int) Navigation {
 	return Navigation{
-		hexmap: newHexMap(cols, rows),
+		hexmap:    newHexMap(cols, rows),
+		MapWidth:  cols,
+		MapHeight: rows,
 	}
 }
 
