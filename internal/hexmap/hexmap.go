@@ -56,7 +56,7 @@ func (hm HexMap) SetWall(c, r int) {
 	hm.walls[c][r] = true
 }
 
-func (hm HexMap) isWall(c, r int) bool {
+func (hm HexMap) IsWall(c, r int) bool {
 	return hm.walls[c][r]
 }
 
@@ -72,7 +72,7 @@ func (hm HexMap) DrawTo(imd *imdraw.IMDraw) {
 	for y := 0; y < hm.MapHeight; y++ {
 		for x := 0; x < hm.MapWidth; x++ {
 			xs, ys := hm.ToScreen(x, y)
-			if hm.isWall(x, y) {
+			if hm.IsWall(x, y) {
 				imd.Color = colornames.Black
 			} else {
 				imd.Color = colornames.Limegreen

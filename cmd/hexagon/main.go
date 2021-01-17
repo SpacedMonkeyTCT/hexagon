@@ -37,7 +37,7 @@ func run() {
 
 	imd := imdraw.New(nil)
 	hm := hexmap.New(mapW, mapH, winW, winH)
-	n := navigation.NewNavigation(mapW, mapH)
+	n := navigation.NewNavigation(hm)
 	setWalls(hm, n)
 	c := creature.New(hm, n)
 

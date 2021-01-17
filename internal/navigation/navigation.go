@@ -1,6 +1,9 @@
 package navigation
 
-import "github.com/faiface/pixel"
+import (
+	"github.com/SpacedMonkeyTCT/hexagon/internal/hexmap"
+	"github.com/faiface/pixel"
+)
 
 type Navigation struct {
 	mesh      Mesh
@@ -8,11 +11,11 @@ type Navigation struct {
 	MapHeight int
 }
 
-func NewNavigation(cols, rows int) Navigation {
+func NewNavigation(hm *hexmap.HexMap) Navigation {
 	return Navigation{
-		mesh:      newMesh(cols, rows),
-		MapWidth:  cols,
-		MapHeight: rows,
+		mesh:      newMesh(hm.MapWidth, hm.MapHeight),
+		MapWidth:  hm.MapWidth,
+		MapHeight: hm.MapHeight,
 	}
 }
 
