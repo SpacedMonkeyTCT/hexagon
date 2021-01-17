@@ -22,23 +22,21 @@ type HexMap struct {
 }
 
 const (
-	mapW  = 5
-	mapH  = 4
 	cos30 = 0.86602540378
 )
 
 // New creates a hexmap to fit a window with dimensions w, h with a comfortable border
-func New(w, h int) HexMap {
-	size := int(math.Min(float64(w/(mapW+1)), float64(h/mapH))) / 2
+func New(mapW, mapH, scrW, scrH int) *HexMap {
+	size := int(math.Min(float64(scrW/(mapW+1)), float64(scrH/mapH))) / 2
 	offsetX := size * 2
 	offsetY := int(float64(offsetX) * cos30)
-	screenW := mapW * offsetX
-	screenH := mapH * offsetY
+	drawW := mapW * offsetX
+	drawH := mapH * offsetY
 
-	return HexMap{
+	return &HexMap{
 		hex:       hexagon.New(size),
-		originX:   (w - screenW + size) / 2,
-		originY:   (h - screenH + offsetY) / 2,
+		originX:   (scrW - drawW + size) / 2,
+		originY:   (scrH - drawH + offsetY) / 2,
 		offsetX:   offsetX,
 		offsetY:   offsetY,
 		Size:      size,
@@ -56,8 +54,8 @@ func New(w, h int) HexMap {
 func (hm HexMap) DrawTo(imd *imdraw.IMDraw) {
 	imd.Color = colornames.Limegreen
 
-	for y := 0; y < mapH; y++ {
-		for x := 0; x < mapW; x++ {
+	for y := 0; y < hm.MapHeight; y++ {
+		for x := 0; x < hm.MapWidth; x++ {
 			xs, ys := hm.ToScreen(x, y)
 			hm.hex.DrawTo(imd, xs, ys)
 		}

@@ -4,6 +4,7 @@ package main
 import (
 	"github.com/SpacedMonkeyTCT/hexagon/internal/creature"
 	"github.com/SpacedMonkeyTCT/hexagon/internal/hexmap"
+	"github.com/SpacedMonkeyTCT/hexagon/internal/navigation"
 	"github.com/faiface/pixel"
 	"github.com/faiface/pixel/imdraw"
 	"github.com/faiface/pixel/pixelgl"
@@ -15,14 +16,16 @@ func main() {
 }
 
 const (
-	width  = 1024
-	height = 768
+	winW = 1024
+	winH = 768
+	mapW = 5
+	mapH = 4
 )
 
 func run() {
 	cfg := pixelgl.WindowConfig{
 		Title:  "Hexagon!",
-		Bounds: pixel.R(0, 0, width, height),
+		Bounds: pixel.R(0, 0, winW, winH),
 		VSync:  true,
 	}
 	win, err := pixelgl.NewWindow(cfg)
@@ -31,10 +34,9 @@ func run() {
 	}
 
 	imd := imdraw.New(nil)
-	hm := hexmap.New(width, height)
-	c := creature.New(hm)
-	//nm := navmesh.NewHexMap(5, 4)
-	//as := navmesh.NewAstar(nm.GetStart(), nm.GetEnd())
+	hm := hexmap.New(mapW, mapH, winW, winH)
+	n := navigation.NewNavigation(mapW, mapH)
+	c := creature.New(hm, n)
 
 	for !win.Closed() {
 		win.Clear(colornames.Aliceblue)
