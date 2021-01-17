@@ -51,6 +51,10 @@ func (c *Creature) Update() {
 	for len(c.path) == 0 {
 		c.endX = rand.Intn(c.hm.MapWidth)
 		c.endY = rand.Intn(c.hm.MapHeight)
+		if c.n.IsWall(c.endX, c.endY) {
+			continue
+		}
+
 		c.path = c.n.Find(c.x, c.y, c.endX, c.endY)
 		if len(c.path) > 0 {
 			return

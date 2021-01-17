@@ -7,7 +7,7 @@ type Astar struct {
 	closed map[*node]struct{}
 }
 
-func NewAstar(start, end *node) Astar {
+func newAstar(start, end *node) Astar {
 	return Astar{
 		start:  start,
 		end:    end,
@@ -16,7 +16,7 @@ func NewAstar(start, end *node) Astar {
 	}
 }
 
-func (a *Astar) Search() *node {
+func (a *Astar) search() *node {
 	candidate := a.open.pop()
 
 	if candidate.node == a.end {

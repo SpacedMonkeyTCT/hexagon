@@ -6,7 +6,7 @@ type HexMap struct {
 	node [][]*node
 }
 
-func NewHexMap(cols, rows int) HexMap {
+func newHexMap(cols, rows int) HexMap {
 	nhm := HexMap{
 		cols: cols,
 		rows: rows,
@@ -28,8 +28,12 @@ func NewHexMap(cols, rows int) HexMap {
 	return nhm
 }
 
-func (hm HexMap) SetWall(c, r int) {
+func (hm HexMap) setWall(c, r int) {
 	hm.node[c][r].setWall()
+}
+
+func (hm HexMap) isWall(c, r int) bool {
+	return hm.node[c][r].isWall
 }
 
 func (hm HexMap) joinNeighbours(c, r int) {

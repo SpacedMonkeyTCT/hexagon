@@ -8,18 +8,26 @@ type Navigation struct {
 
 func NewNavigation(cols, rows int) Navigation {
 	return Navigation{
-		hexmap: NewHexMap(cols, rows),
+		hexmap: newHexMap(cols, rows),
 	}
+}
+
+func (n Navigation) SetWall(c, r int) {
+	n.hexmap.setWall(c, r)
+}
+
+func (n Navigation) IsWall(c, r int) bool {
+	return n.hexmap.isWall(c, r)
 }
 
 func (n Navigation) Find(fromX, fromY, toX, toY int) []pixel.Vec {
 	start := n.hexmap.node[fromX][fromY]
 	end := n.hexmap.node[toX][toY]
-	as := NewAstar(start, end)
+	as := newAstar(start, end)
 
 	var p *node = nil
 	for p == nil {
-		p = as.Search()
+		p = as.search()
 	}
 
 	path := make([]pixel.Vec, 0)
