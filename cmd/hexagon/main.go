@@ -36,6 +36,7 @@ func run() {
 	imd := imdraw.New(nil)
 	hm := hexmap.New(mapW, mapH, winW, winH)
 	n := navigation.NewNavigation(mapW, mapH)
+	hm.SetWall(2, 0)
 	c := creature.New(hm, n)
 
 	for !win.Closed() {

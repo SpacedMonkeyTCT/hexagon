@@ -16,6 +16,7 @@ type HexMap struct {
 	originY   int
 	offsetX   int
 	offsetY   int
+	walls     [][]bool
 	Size      int
 	MapWidth  int
 	MapHeight int
@@ -33,16 +34,30 @@ func New(mapW, mapH, scrW, scrH int) *HexMap {
 	drawW := mapW * offsetX
 	drawH := mapH * offsetY
 
+	walls := make([][]bool, mapW)
+	for c := 0; c < mapW; c++ {
+		walls[c] = make([]bool, mapH)
+	}
+
 	return &HexMap{
 		hex:       hexagon.New(size),
 		originX:   (scrW - drawW + size) / 2,
 		originY:   (scrH - drawH + offsetY) / 2,
 		offsetX:   offsetX,
 		offsetY:   offsetY,
+		walls:     walls,
 		Size:      size,
 		MapWidth:  mapW,
 		MapHeight: mapH,
 	}
+}
+
+func (hm HexMap) SetWall(c, r int) {
+	hm.walls[c][r] = true
+}
+
+func (hm HexMap) isWall(c, r int) bool {
+	return hm.walls[c][r]
 }
 
 // DrawTo draws the hexmap to an IMDraw with borders between tiles.
@@ -57,6 +72,11 @@ func (hm HexMap) DrawTo(imd *imdraw.IMDraw) {
 	for y := 0; y < hm.MapHeight; y++ {
 		for x := 0; x < hm.MapWidth; x++ {
 			xs, ys := hm.ToScreen(x, y)
+			if hm.isWall(x, y) {
+				imd.Color = colornames.Black
+			} else {
+				imd.Color = colornames.Limegreen
+			}
 			hm.hex.DrawTo(imd, xs, ys)
 		}
 	}
