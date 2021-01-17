@@ -2,6 +2,8 @@
 package main
 
 import (
+	"math/rand"
+
 	"github.com/SpacedMonkeyTCT/hexagon/internal/creature"
 	"github.com/SpacedMonkeyTCT/hexagon/internal/hexmap"
 	"github.com/SpacedMonkeyTCT/hexagon/internal/navigation"
@@ -18,8 +20,8 @@ func main() {
 const (
 	winW = 1024
 	winH = 768
-	mapW = 5
-	mapH = 4
+	mapW = 7
+	mapH = 6
 )
 
 func run() {
@@ -51,8 +53,11 @@ func run() {
 }
 
 func setWalls(hm *hexmap.HexMap, n navigation.Navigation) {
-	hm.SetWall(2, 0)
-	n.SetWall(2, 0)
-	hm.SetWall(2, 1)
-	n.SetWall(2, 1)
+	wallMax := (mapW * mapH) / 4
+	for i := 0; i < wallMax; i++ {
+		x := rand.Intn(mapW)
+		y := rand.Intn(mapH)
+		hm.SetWall(x, y)
+		n.SetWall(x, y)
+	}
 }
