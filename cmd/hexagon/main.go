@@ -3,6 +3,7 @@ package main
 
 import (
 	"math/rand"
+	"time"
 
 	"github.com/SpacedMonkeyTCT/hexagon/internal/creature"
 	"github.com/SpacedMonkeyTCT/hexagon/internal/hexmap"
@@ -18,10 +19,11 @@ func main() {
 }
 
 const (
-	winW = 1024
-	winH = 768
-	mapW = 7
-	mapH = 6
+	winW        = 1024
+	winH        = 768
+	mapW        = 7
+	mapH        = 6
+	msPerUpdate = 25 * time.Millisecond
 )
 
 func run() {
@@ -41,12 +43,21 @@ func run() {
 	n := navigation.NewNavigation(hm)
 	c := creature.New(hm, n)
 
+	then := time.Now()
+	lag := time.Duration(0)
 	for !win.Closed() {
-		win.Clear(colornames.Aliceblue)
-		c.Update()
+		elapsed := time.Since(then)
+		then = time.Now()
+		lag += elapsed
+
+		for ; lag >= msPerUpdate; lag -= msPerUpdate {
+			c.Update()
+		}
+
 		imd.Clear()
 		hm.DrawTo(imd)
 		c.DrawTo(imd)
+		win.Clear(colornames.Aliceblue)
 		imd.Draw(win)
 		win.Update()
 	}

@@ -29,5 +29,5 @@ func (n Navigation) Find(fromX, fromY, toX, toY int) []pixel.Vec {
 	for ; !p.pos.Eq(start.pos); p = p.parent {
 		path = append(path, p.pos)
 	}
-	return path
+	return append(path, start.pos)
 }
