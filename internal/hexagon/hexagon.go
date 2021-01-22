@@ -59,8 +59,8 @@ func (h *Hexagon) Outline(o float64) {
 }
 
 // MoveTo moves the origin of the hexagon to coords (x, y)
-func (h *Hexagon) MoveTo(x, y int) {
-	h.origin = pixel.V(float64(x), float64(y))
+func (h *Hexagon) MoveTo(p pixel.Vec) {
+	h.origin = p
 }
 
 // Rotated sets the rotation to angle, a, in radians

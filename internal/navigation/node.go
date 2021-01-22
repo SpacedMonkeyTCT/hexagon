@@ -1,25 +1,23 @@
 package navigation
 
-import (
-	"github.com/faiface/pixel"
-)
-
-type node struct {
-	pos        pixel.Vec
-	neighbours []*node
-	parent     *node
+type Node struct {
+	X          int
+	Y          int
+	neighbours []*Node
+	parent     *Node
 }
 
-func newNode(x, y int) *node {
-	return &node{
-		pos: pixel.V(float64(x), float64(y)),
+func newNode(x, y int) *Node {
+	return &Node{
+		X: x,
+		Y: y,
 	}
 }
 
-func (n *node) addNeighbour(neighbour *node) {
+func (n *Node) addNeighbour(neighbour *Node) {
 	n.neighbours = append(n.neighbours, neighbour)
 }
 
-func (n *node) setParent(parent *node) {
+func (n *Node) setParent(parent *Node) {
 	n.parent = parent
 }

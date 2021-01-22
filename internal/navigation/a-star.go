@@ -1,22 +1,22 @@
 package navigation
 
 type Astar struct {
-	start  *node
-	end    *node
+	start  *Node
+	end    *Node
 	open   orderedSet
-	closed map[*node]struct{}
+	closed map[*Node]struct{}
 }
 
-func newAstar(start, end *node) Astar {
+func newAstar(start, end *Node) Astar {
 	return Astar{
 		start:  start,
 		end:    end,
 		open:   newOrderedSet(newCandidate(start)),
-		closed: make(map[*node]struct{}),
+		closed: make(map[*Node]struct{}),
 	}
 }
 
-func (a *Astar) search() *node {
+func (a *Astar) search() *Node {
 	candidate := a.open.pop()
 
 	if candidate.node == a.end {

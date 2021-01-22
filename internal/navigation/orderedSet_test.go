@@ -3,8 +3,6 @@ package navigation
 import (
 	"math/rand"
 	"testing"
-
-	"github.com/faiface/pixel"
 )
 
 func TestPush(t *testing.T) {
@@ -19,7 +17,7 @@ func TestPush(t *testing.T) {
 		t.Error("Push did not add to dict")
 	}
 
-	if !ons.array[0].node.pos.Eq(pixel.V(1, 2)) {
+	if ons.array[0].node.X != 1 || ons.array[0].node.Y != 2 {
 		t.Error("Pushed item not as expected")
 	}
 }
@@ -37,7 +35,7 @@ func TestPop(t *testing.T) {
 		t.Error("Pop did not remove from dict")
 	}
 
-	if !c.node.pos.Eq(pixel.V(1, 2)) {
+	if c.node.X != 1 || c.node.Y != 2 {
 		t.Error("Popped item not as expected")
 	}
 }
@@ -63,9 +61,8 @@ func TestSort(t *testing.T) {
 
 	prevScore := ons.array[0].score
 	for _, c := range ons.array[1:] {
-		if c.score < prevScore {
-			t.Error("Sort order not as expected")
-			return
+		if c.score > prevScore {
+			t.Errorf("Sort order not as expected, %v after %v", c.score, prevScore)
 		}
 		prevScore = c.score
 	}

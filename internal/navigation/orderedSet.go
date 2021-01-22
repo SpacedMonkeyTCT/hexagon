@@ -6,7 +6,7 @@ import (
 
 type orderedSet struct {
 	array byScore
-	dict  map[*node]*candidate
+	dict  map[*Node]*candidate
 }
 
 type byScore []*candidate
@@ -24,7 +24,7 @@ func (bs byScore) Less(i, j int) bool {
 }
 
 func newOrderedSet(cs ...*candidate) orderedSet {
-	dict := make(map[*node]*candidate, len(cs))
+	dict := make(map[*Node]*candidate, len(cs))
 	for _, c := range cs {
 		dict[c.node] = c
 	}
@@ -46,7 +46,7 @@ func (os *orderedSet) pop() *candidate {
 	return c
 }
 
-func (os orderedSet) get(n *node) *candidate {
+func (os orderedSet) get(n *Node) *candidate {
 	return os.dict[n]
 }
 

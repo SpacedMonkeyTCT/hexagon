@@ -20,7 +20,7 @@ type Creature struct {
 	y       int
 	targetX int
 	targetY int
-	path    []pixel.Vec
+	path    []*navigation.Node
 	steps   int
 	pos     pixel.Vec
 	nextPos pixel.Vec
@@ -60,16 +60,14 @@ func (c *Creature) Update() {
 
 func (c *Creature) startWalk() {
 	thisTile := c.path[len(c.path)-1]
-	c.x = int(thisTile.X)
-	c.y = int(thisTile.Y)
-	sx, sy := c.hm.ToScreen(c.x, c.y)
-	c.pos = pixel.V(float64(sx), float64(sy))
+	c.x = thisTile.X
+	c.y = thisTile.Y
+	c.pos = c.hm.ToScreen(c.x, c.y)
 	c.path = c.path[:len(c.path)-1]
 
 	if len(c.path) > 0 {
 		nextTile := c.path[len(c.path)-1]
-		ex, ey := c.hm.ToScreen(int(nextTile.X), int(nextTile.Y))
-		c.nextPos = pixel.V(float64(ex), float64(ey))
+		c.nextPos = c.hm.ToScreen(nextTile.X, nextTile.Y)
 	}
 }
 
@@ -107,9 +105,9 @@ func (c Creature) DrawTo(imd *imdraw.IMDraw) {
 	if c.steps < stepsPerTile && !c.pos.Eq(c.nextPos) {
 		ratio := float64(c.steps) / float64(stepsPerTile)
 		pos := pixel.Lerp(c.pos, c.nextPos, ratio)
-		c.hex.MoveTo(int(pos.X), int(pos.Y))
+		c.hex.MoveTo(pos)
 	} else {
-		c.hex.MoveTo(int(c.pos.X), int(c.pos.Y))
+		c.hex.MoveTo(c.pos)
 	}
 	c.hex.Outline(0)
 	c.hex.DrawTo(imd)
@@ -119,8 +117,7 @@ func (c Creature) drawPath(imd *imdraw.IMDraw) {
 	imd.Color = colornames.Violet
 	c.hex.Outline(4)
 	for _, step := range c.path {
-		sx, sy := c.hm.ToScreen(int(step.X), int(step.Y))
-		c.hex.MoveTo(sx, sy)
+		c.hex.MoveTo(c.hm.ToScreen(step.X, step.Y))
 		c.hex.DrawTo(imd)
 	}
 }
@@ -128,7 +125,6 @@ func (c Creature) drawPath(imd *imdraw.IMDraw) {
 func (c Creature) drawTarget(imd *imdraw.IMDraw) {
 	imd.Color = colornames.Red
 	c.hex.Outline(4)
-	sx, sy := c.hm.ToScreen(c.targetX, c.targetY)
-	c.hex.MoveTo(sx, sy)
+	c.hex.MoveTo(c.hm.ToScreen(c.targetX, c.targetY))
 	c.hex.DrawTo(imd)
 }

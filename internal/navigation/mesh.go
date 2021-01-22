@@ -3,15 +3,15 @@ package navigation
 import "github.com/SpacedMonkeyTCT/hexagon/internal/hexmap"
 
 type Mesh struct {
-	node [][]*node
+	node [][]*Node
 }
 
 func newMesh(hm *hexmap.HexMap) Mesh {
 	m := Mesh{}
 
-	m.node = make([][]*node, hm.MapWidth)
+	m.node = make([][]*Node, hm.MapWidth)
 	for c := 0; c < hm.MapWidth; c++ {
-		m.node[c] = make([]*node, hm.MapHeight)
+		m.node[c] = make([]*Node, hm.MapHeight)
 		for r := 0; r < hm.MapHeight; r++ {
 			m.node[c][r] = newNode(c, r)
 		}
@@ -69,7 +69,7 @@ func (m Mesh) joinNeighbours(hm *hexmap.HexMap, c, r int) {
 	}
 }
 
-func (m Mesh) addNeighbourIfNotWall(hm *hexmap.HexMap, n *node, c, r int) {
+func (m Mesh) addNeighbourIfNotWall(hm *hexmap.HexMap, n *Node, c, r int) {
 	if !hm.IsWall(c, r) {
 		n.addNeighbour(m.node[c][r])
 	}

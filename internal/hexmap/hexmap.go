@@ -5,6 +5,7 @@ import (
 	"math"
 
 	"github.com/SpacedMonkeyTCT/hexagon/internal/hexagon"
+	"github.com/faiface/pixel"
 	"github.com/faiface/pixel/imdraw"
 	"golang.org/x/image/colornames"
 )
@@ -76,16 +77,15 @@ func (hm HexMap) DrawTo(imd *imdraw.IMDraw) {
 			} else {
 				imd.Color = colornames.Limegreen
 			}
-			xs, ys := hm.ToScreen(x, y)
-			hm.hex.MoveTo(xs, ys)
+			hm.hex.MoveTo(hm.ToScreen(x, y))
 			hm.hex.DrawTo(imd)
 		}
 	}
 }
 
 // toScreen converts map coords to screen coords
-func (hm HexMap) ToScreen(x, y int) (int, int) {
+func (hm HexMap) ToScreen(x, y int) pixel.Vec {
 	xs := hm.originX + hm.offsetX*x + hm.Size*(y%2)
 	ys := hm.originY + hm.offsetY*y
-	return xs, ys
+	return pixel.V(float64(xs), float64(ys))
 }
