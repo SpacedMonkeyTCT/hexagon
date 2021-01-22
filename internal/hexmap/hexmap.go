@@ -11,7 +11,7 @@ import (
 
 // HexMap draws map of hexagons to an IMDraw, scaled to fit given dimensions
 type HexMap struct {
-	hex       hexagon.Hexagon
+	hex       *hexagon.Hexagon
 	originX   int
 	originY   int
 	offsetX   int
@@ -67,17 +67,16 @@ func (hm HexMap) IsWall(c, r int) bool {
 //     * * * * *
 //    * * * * *
 func (hm HexMap) DrawTo(imd *imdraw.IMDraw) {
-	imd.Color = colornames.Limegreen
-
 	for y := 0; y < hm.MapHeight; y++ {
 		for x := 0; x < hm.MapWidth; x++ {
-			xs, ys := hm.ToScreen(x, y)
 			if hm.IsWall(x, y) {
 				imd.Color = colornames.Black
 			} else {
 				imd.Color = colornames.Limegreen
 			}
-			hm.hex.DrawTo(imd, xs, ys)
+			xs, ys := hm.ToScreen(x, y)
+			hm.hex.MoveTo(xs, ys)
+			hm.hex.DrawTo(imd)
 		}
 	}
 }

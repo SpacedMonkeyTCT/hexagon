@@ -8,9 +8,11 @@ import (
 
 // Hexagon draws a regular hexagon of a given size to an IMDraw
 type Hexagon struct {
-	r  float64
-	dx float64
-	dy float64
+	r      float64
+	dx     float64
+	dy     float64
+	angle  float64
+	origin pixel.Vec
 }
 
 const (
@@ -18,28 +20,43 @@ const (
 	sin30 = 0.5
 )
 
-// New creates a hexagon with radius, r
-func New(r int) Hexagon {
-	return Hexagon{
-		r:  float64(r),
-		dx: float64(r) * cos30,
-		dy: float64(r) * sin30,
-	}
-}
-
-// DrawTo draws the hexagon to an IMDraw at x, y, centered at O
+// New creates a hexagon with radius, r, centered at O
 // in this orientation:
 //        *
 //    *       *
 //        O
 //    *       *
 //        *
-func (h Hexagon) DrawTo(imd *imdraw.IMDraw, x, y int) {
-	xf := float64(x)
-	yf := float64(y)
+func New(r int) *Hexagon {
+	rf := float64(r)
+	return &Hexagon{
+		r:      rf,
+		dx:     rf * cos30,
+		dy:     rf * sin30,
+		angle:  0,
+		origin: pixel.V(0, 0),
+	}
+}
+
+// DrawTo draws the hexagon to an IMDraw
+func (h Hexagon) DrawTo(imd *imdraw.IMDraw) {
 	imd.EndShape = imdraw.RoundEndShape
-	imd.Push(pixel.V(xf, yf+h.r), pixel.V(xf+h.dx, yf+h.dy))
-	imd.Push(pixel.V(xf+h.dx, yf-h.dy), pixel.V(xf, yf-h.r))
-	imd.Push(pixel.V(xf-h.dx, yf-h.dy), pixel.V(xf-h.dx, yf+h.dy))
+	imd.Push(
+		pixel.V(0, h.r).Rotated(h.angle).Add(h.origin),
+		pixel.V(h.dx, h.dy).Rotated(h.angle).Add(h.origin),
+		pixel.V(h.dx, -h.dy).Rotated(h.angle).Add(h.origin),
+		pixel.V(0, -h.r).Rotated(h.angle).Add(h.origin),
+		pixel.V(-h.dx, -h.dy).Rotated(h.angle).Add(h.origin),
+		pixel.V(-h.dx, h.dy).Rotated(h.angle).Add(h.origin))
 	imd.Polygon(4)
+}
+
+// MoveTo moves the origin of the hexagon to coords (x, y)
+func (h *Hexagon) MoveTo(x, y int) {
+	h.origin = pixel.V(float64(x), float64(y))
+}
+
+// Rotated sets the rotation to angle, a, in radians
+func (h *Hexagon) Rotated(a float64) {
+	h.angle = a
 }

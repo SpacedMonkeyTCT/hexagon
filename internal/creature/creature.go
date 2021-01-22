@@ -13,7 +13,7 @@ import (
 
 // Creature moves around the hexmap
 type Creature struct {
-	hex     hexagon.Hexagon
+	hex     *hexagon.Hexagon
 	hm      *hexmap.HexMap
 	n       navigation.Navigation
 	waitFor int
@@ -73,17 +73,20 @@ func (c Creature) DrawTo(imd *imdraw.IMDraw) {
 	// draw path
 	imd.Color = colornames.Violet
 	for _, step := range c.path {
-		x, y := c.hm.ToScreen(int(step.X), int(step.Y))
-		c.hex.DrawTo(imd, x, y)
+		sx, sy := c.hm.ToScreen(int(step.X), int(step.Y))
+		c.hex.MoveTo(sx, sy)
+		c.hex.DrawTo(imd)
 	}
 
 	// draw destination
 	imd.Color = colornames.Red
 	sx, sy := c.hm.ToScreen(c.endX, c.endY)
-	c.hex.DrawTo(imd, sx, sy)
+	c.hex.MoveTo(sx, sy)
+	c.hex.DrawTo(imd)
 
 	// draw creature
 	imd.Color = colornames.Cornflowerblue
 	sx, sy = c.hm.ToScreen(c.x, c.y)
-	c.hex.DrawTo(imd, sx, sy)
+	c.hex.MoveTo(sx, sy)
+	c.hex.DrawTo(imd)
 }
