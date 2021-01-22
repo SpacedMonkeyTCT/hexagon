@@ -111,11 +111,13 @@ func (c Creature) DrawTo(imd *imdraw.IMDraw) {
 	} else {
 		c.hex.MoveTo(int(c.pos.X), int(c.pos.Y))
 	}
+	c.hex.Outline(0)
 	c.hex.DrawTo(imd)
 }
 
 func (c Creature) drawPath(imd *imdraw.IMDraw) {
 	imd.Color = colornames.Violet
+	c.hex.Outline(4)
 	for _, step := range c.path {
 		sx, sy := c.hm.ToScreen(int(step.X), int(step.Y))
 		c.hex.MoveTo(sx, sy)
@@ -125,6 +127,7 @@ func (c Creature) drawPath(imd *imdraw.IMDraw) {
 
 func (c Creature) drawTarget(imd *imdraw.IMDraw) {
 	imd.Color = colornames.Red
+	c.hex.Outline(4)
 	sx, sy := c.hm.ToScreen(c.targetX, c.targetY)
 	c.hex.MoveTo(sx, sy)
 	c.hex.DrawTo(imd)

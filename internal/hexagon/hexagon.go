@@ -8,11 +8,12 @@ import (
 
 // Hexagon draws a regular hexagon of a given size to an IMDraw
 type Hexagon struct {
-	r      float64
-	dx     float64
-	dy     float64
-	angle  float64
-	origin pixel.Vec
+	r       float64
+	dx      float64
+	dy      float64
+	outline float64
+	angle   float64
+	origin  pixel.Vec
 }
 
 const (
@@ -30,11 +31,12 @@ const (
 func New(r int) *Hexagon {
 	rf := float64(r)
 	return &Hexagon{
-		r:      rf,
-		dx:     rf * cos30,
-		dy:     rf * sin30,
-		angle:  0,
-		origin: pixel.V(0, 0),
+		r:       rf,
+		dx:      rf * cos30,
+		dy:      rf * sin30,
+		outline: 0,
+		angle:   0,
+		origin:  pixel.V(0, 0),
 	}
 }
 
@@ -48,7 +50,12 @@ func (h Hexagon) DrawTo(imd *imdraw.IMDraw) {
 		pixel.V(0, -h.r).Rotated(h.angle).Add(h.origin),
 		pixel.V(-h.dx, -h.dy).Rotated(h.angle).Add(h.origin),
 		pixel.V(-h.dx, h.dy).Rotated(h.angle).Add(h.origin))
-	imd.Polygon(4)
+	imd.Polygon(h.outline)
+}
+
+// Outline moves the origin of the hexagon to coords (x, y)
+func (h *Hexagon) Outline(o float64) {
+	h.outline = o
 }
 
 // MoveTo moves the origin of the hexagon to coords (x, y)

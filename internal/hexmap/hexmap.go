@@ -38,9 +38,11 @@ func New(mapW, mapH, scrW, scrH int) *HexMap {
 	for c := 0; c < mapW; c++ {
 		walls[c] = make([]bool, mapH)
 	}
+	hex := hexagon.New(size)
+	hex.Outline(4)
 
 	return &HexMap{
-		hex:       hexagon.New(size),
+		hex:       hex,
 		originX:   (scrW - drawW + size) / 2,
 		originY:   (scrH - drawH + offsetY) / 2,
 		offsetX:   offsetX,
