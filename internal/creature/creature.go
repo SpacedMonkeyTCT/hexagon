@@ -59,14 +59,14 @@ func (c *Creature) Update() {
 }
 
 func (c *Creature) startWalk() {
-	thisTile := c.path[len(c.path)-1]
+	thisTile := c.path[0]
 	c.x = thisTile.X
 	c.y = thisTile.Y
 	c.pos = c.hm.ToScreen(c.x, c.y)
-	c.path = c.path[:len(c.path)-1]
+	c.path = c.path[1:]
 
 	if len(c.path) > 0 {
-		nextTile := c.path[len(c.path)-1]
+		nextTile := c.path[0]
 		c.nextPos = c.hm.ToScreen(nextTile.X, nextTile.Y)
 	}
 }

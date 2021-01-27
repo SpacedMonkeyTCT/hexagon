@@ -17,7 +17,7 @@ func NewNavigation(hm *hexmap.HexMap) Navigation {
 func (n Navigation) Find(fromX, fromY, toX, toY int) []*Node {
 	start := n.mesh.node[fromX][fromY]
 	end := n.mesh.node[toX][toY]
-	as := newAstar(start, end)
+	as := newAstar(end, start)
 
 	var p *Node = nil
 	for p == nil {
@@ -25,8 +25,8 @@ func (n Navigation) Find(fromX, fromY, toX, toY int) []*Node {
 	}
 
 	path := make([]*Node, 0)
-	for ; p.X != start.X || p.Y != start.Y; p = p.parent {
+	for ; p.X != end.X || p.Y != end.Y; p = p.parent {
 		path = append(path, p)
 	}
-	return append(path, start)
+	return append(path, end)
 }
