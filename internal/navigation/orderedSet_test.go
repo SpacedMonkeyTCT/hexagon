@@ -7,7 +7,7 @@ import (
 
 func TestPush(t *testing.T) {
 	ons := newOrderedSet()
-	ons.push(newCandidate(newNode(1, 2)))
+	ons.push(newNode(1, 2))
 
 	if len(ons.array) != 1 {
 		t.Error("Push did not add to array")
@@ -17,15 +17,15 @@ func TestPush(t *testing.T) {
 		t.Error("Push did not add to dict")
 	}
 
-	if ons.array[0].node.X != 1 || ons.array[0].node.Y != 2 {
+	if ons.array[0].X != 1 || ons.array[0].Y != 2 {
 		t.Error("Pushed item not as expected")
 	}
 }
 
 func TestPop(t *testing.T) {
 	ons := newOrderedSet()
-	ons.push(newCandidate(newNode(1, 2)))
-	c := ons.pop()
+	ons.push(newNode(1, 2))
+	n := ons.pop()
 
 	if len(ons.array) != 0 {
 		t.Error("Pop did not remove from array")
@@ -35,17 +35,17 @@ func TestPop(t *testing.T) {
 		t.Error("Pop did not remove from dict")
 	}
 
-	if c.node.X != 1 || c.node.Y != 2 {
+	if n.X != 1 || n.Y != 2 {
 		t.Error("Popped item not as expected")
 	}
 }
 
 func TestIncludes(t *testing.T) {
 	ons := newOrderedSet()
-	c := newCandidate(newNode(1, 2))
-	ons.push(c)
+	n := newNode(1, 2)
+	ons.push(n)
 
-	if !ons.includes(c) {
+	if !ons.includes(n) {
 		t.Error("Includes didn't find added candidate")
 	}
 }
@@ -53,17 +53,17 @@ func TestIncludes(t *testing.T) {
 func TestSort(t *testing.T) {
 	ons := newOrderedSet()
 	for i := 0; i < 10; i++ {
-		c := newCandidate(newNode(1, 2))
-		c.score = rand.Intn(100)
-		ons.push(c)
+		n := newNode(1, 2)
+		n.score = rand.Intn(100)
+		ons.push(n)
 	}
 	ons.sort()
 
 	prevScore := ons.array[0].score
-	for _, c := range ons.array[1:] {
-		if c.score > prevScore {
-			t.Errorf("Sort order not as expected, %v after %v", c.score, prevScore)
+	for _, n := range ons.array[1:] {
+		if n.score > prevScore {
+			t.Errorf("Sort order not as expected, %v after %v", n.score, prevScore)
 		}
-		prevScore = c.score
+		prevScore = n.score
 	}
 }

@@ -11,7 +11,7 @@ func newAstar(start, end *Node) Astar {
 	return Astar{
 		start:  start,
 		end:    end,
-		open:   newOrderedSet(newCandidate(start)),
+		open:   newOrderedSet(start),
 		closed: make(map[*Node]struct{}),
 	}
 }
@@ -19,24 +19,20 @@ func newAstar(start, end *Node) Astar {
 func (a *Astar) search() *Node {
 	candidate := a.open.pop()
 
-	if candidate.node == a.end {
-		return candidate.node
+	if candidate == a.end {
+		return candidate
 	}
-	a.closed[candidate.node] = struct{}{}
+	a.closed[candidate] = struct{}{}
 
-	for _, neighbour := range candidate.node.neighbours {
-		if _, closed := a.closed[neighbour]; closed {
+	for _, nextCandidate := range candidate.neighbours {
+		if _, closed := a.closed[nextCandidate]; closed {
 			continue
-		}
-		nextCandidate := a.open.get(neighbour)
-		if nextCandidate == nil {
-			nextCandidate = newCandidate(neighbour)
 		}
 
 		score := nextCandidate.calcScore(candidate, a.end)
 		if score < nextCandidate.score || !a.open.includes(nextCandidate) {
 			nextCandidate.update(candidate, a.end)
-			neighbour.setParent(candidate.node)
+			nextCandidate.setParent(candidate)
 
 			if !a.open.includes(nextCandidate) {
 				a.open.push(nextCandidate)
