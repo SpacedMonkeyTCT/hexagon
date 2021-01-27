@@ -1,4 +1,5 @@
-// Currently draws a 5 x 4 map of hexagonal tiles using faiface/pixel
+// Draw a map of hexagonal tiles, some of which are impassable,
+// and a hexagonal creature that randomly picks a valid destination and walks there
 package main
 
 import (
