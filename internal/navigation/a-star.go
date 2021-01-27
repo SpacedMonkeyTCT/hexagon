@@ -1,23 +1,27 @@
 package navigation
 
+import "math"
+
 type Astar struct {
 	start  *Node
 	end    *Node
-	open   orderedSet
+	open   map[*Node]struct{}
 	closed map[*Node]struct{}
 }
 
 func newAstar(start, end *Node) Astar {
+	open := make(map[*Node]struct{})
+	open[start] = struct{}{}
 	return Astar{
 		start:  start,
 		end:    end,
-		open:   newOrderedSet(start),
+		open:   open,
 		closed: make(map[*Node]struct{}),
 	}
 }
 
 func (a *Astar) search() *Node {
-	candidate := a.open.pop()
+	candidate := popLowestScore(a.open)
 
 	if candidate == a.end {
 		return candidate
@@ -30,15 +34,25 @@ func (a *Astar) search() *Node {
 		}
 
 		score := nextCandidate.calcScore(candidate, a.end)
-		if score < nextCandidate.score || !a.open.includes(nextCandidate) {
+		if _, open := a.open[nextCandidate]; !open || score < nextCandidate.score {
 			nextCandidate.update(candidate, a.end)
 			nextCandidate.setParent(candidate)
 
-			if !a.open.includes(nextCandidate) {
-				a.open.push(nextCandidate)
+			if !open {
+				a.open[nextCandidate] = struct{}{}
 			}
 		}
 	}
-	a.open.sort()
 	return nil
+}
+
+func popLowestScore(m map[*Node]struct{}) *Node {
+	lowest := &Node{score: math.MaxInt32}
+	for n := range m {
+		if n.score < lowest.score {
+			lowest = n
+		}
+	}
+	delete(m, lowest)
+	return lowest
 }
