@@ -5,18 +5,18 @@ import (
 )
 
 type Navigation struct {
-	mesh Mesh
+	m mesh
 }
 
 func NewNavigation(hm *hexmap.HexMap) Navigation {
 	return Navigation{
-		mesh: newMesh(hm),
+		m: newMesh(hm),
 	}
 }
 
 func (n Navigation) Find(fromX, fromY, toX, toY int) []*Node {
-	start := n.mesh.node[fromX][fromY]
-	end := n.mesh.node[toX][toY]
+	start := n.m.node[fromX][fromY]
+	end := n.m.node[toX][toY]
 	as := newAstar(end, start)
 
 	var p *Node = nil

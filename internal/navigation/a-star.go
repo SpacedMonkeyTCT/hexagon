@@ -2,17 +2,17 @@ package navigation
 
 import "math"
 
-type Astar struct {
+type astar struct {
 	start  *Node
 	end    *Node
 	open   map[*Node]struct{}
 	closed map[*Node]struct{}
 }
 
-func newAstar(start, end *Node) Astar {
+func newAstar(start, end *Node) astar {
 	open := make(map[*Node]struct{})
 	open[start] = struct{}{}
-	return Astar{
+	return astar{
 		start:  start,
 		end:    end,
 		open:   open,
@@ -20,7 +20,7 @@ func newAstar(start, end *Node) Astar {
 	}
 }
 
-func (a *Astar) search() *Node {
+func (a *astar) search() *Node {
 	candidate := popLowestScore(a.open)
 
 	if candidate == a.end {

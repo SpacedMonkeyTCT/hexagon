@@ -2,12 +2,12 @@ package navigation
 
 import "github.com/SpacedMonkeyTCT/hexagon/internal/hexmap"
 
-type Mesh struct {
+type mesh struct {
 	node [][]*Node
 }
 
-func newMesh(hm *hexmap.HexMap) Mesh {
-	m := Mesh{}
+func newMesh(hm *hexmap.HexMap) mesh {
+	m := mesh{}
 
 	m.node = make([][]*Node, hm.MapWidth)
 	for c := 0; c < hm.MapWidth; c++ {
@@ -27,7 +27,7 @@ func newMesh(hm *hexmap.HexMap) Mesh {
 	return m
 }
 
-func (m Mesh) joinNeighbours(hm *hexmap.HexMap, c, r int) {
+func (m mesh) joinNeighbours(hm *hexmap.HexMap, c, r int) {
 	evenLine := r%2 == 0
 	// bottom neighbours
 	if r > 0 {
@@ -69,7 +69,7 @@ func (m Mesh) joinNeighbours(hm *hexmap.HexMap, c, r int) {
 	}
 }
 
-func (m Mesh) addNeighbourIfNotWall(hm *hexmap.HexMap, n *Node, c, r int) {
+func (m mesh) addNeighbourIfNotWall(hm *hexmap.HexMap, n *Node, c, r int) {
 	if !hm.IsWall(c, r) {
 		n.addNeighbour(m.node[c][r])
 	}
