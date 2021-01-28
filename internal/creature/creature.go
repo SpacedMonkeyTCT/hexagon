@@ -27,7 +27,7 @@ type Creature struct {
 }
 
 const (
-	stepsPerTile = 20
+	stepsPerTile = 30
 )
 
 // New creates a creature that lives on a HexMap

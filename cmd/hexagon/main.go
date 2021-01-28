@@ -24,7 +24,7 @@ const (
 	winH        = 768
 	mapW        = 7
 	mapH        = 6
-	msPerUpdate = 25 * time.Millisecond
+	msPerUpdate = 10 * time.Millisecond
 )
 
 func run() {
@@ -48,10 +48,10 @@ func run() {
 	lag := time.Duration(0)
 	for !win.Closed() {
 		elapsed := time.Since(then)
+		// fmt.Println("Elapsed", elapsed)
 		then = time.Now()
-		lag += elapsed
 
-		for ; lag >= msPerUpdate; lag -= msPerUpdate {
+		for lag += elapsed; lag >= msPerUpdate; lag -= msPerUpdate {
 			c.Update()
 		}
 
