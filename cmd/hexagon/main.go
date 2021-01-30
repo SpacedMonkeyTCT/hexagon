@@ -22,8 +22,8 @@ func main() {
 const (
 	winW        = 1024
 	winH        = 768
-	mapW        = 10
-	mapH        = 9
+	mapW        = 13
+	mapH        = 12
 	msPerUpdate = 10 * time.Millisecond
 )
 
