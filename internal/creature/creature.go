@@ -32,19 +32,14 @@ const (
 
 // New creates a creature that lives on a HexMap
 func New(hm *hexmap.HexMap, n navigation.Navigation) *Creature {
+	hex := hexagon.New(hm.Size / 2)
+	hex.Outline(0)
 	c := &Creature{
-		hex:     hexagon.New(hm.Size / 2),
+		hex:     hex,
 		hm:      hm,
 		n:       n,
-		steps:   0,
-		x:       0,
-		y:       hm.MapHeight - 2,
-		targetX: hm.MapWidth - 1,
-		targetY: hm.MapHeight - 1,
-		path:    n.Find(0, hm.MapHeight-2, hm.MapWidth-1, hm.MapHeight-1),
 	}
-	c.hex.Outline(0)
-	c.startWalk()
+	c.pickTarget()
 	return c
 }
 
@@ -87,11 +82,7 @@ func (c *Creature) pickTarget() {
 		if c.hm.IsWall(c.targetX, c.targetY) {
 			continue
 		}
-
 		c.path = c.n.Find(c.x, c.y, c.targetX, c.targetY)
-		if len(c.path) > 0 {
-			return
-		}
 	}
 }
 
