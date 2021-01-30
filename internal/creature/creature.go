@@ -14,6 +14,7 @@ import (
 // Creature moves around the hexmap
 type Creature struct {
 	hex     *hexagon.Hexagon
+	smallHex *hexagon.Hexagon
 	hm      *hexmap.HexMap
 	n       navigation.Navigation
 	x       int
@@ -34,8 +35,11 @@ const (
 func New(hm *hexmap.HexMap, n navigation.Navigation) *Creature {
 	hex := hexagon.New(hm.Size / 2)
 	hex.Outline(0)
+	smallHex := hexagon.New(hm.Size / 4)
+	smallHex.Outline(0)
 	c := &Creature{
 		hex:     hex,
+		smallHex:smallHex,
 		hm:      hm,
 		n:       n,
 	}
@@ -105,10 +109,10 @@ func (c Creature) DrawTo(imd *imdraw.IMDraw) {
 }
 
 func (c Creature) drawPath(imd *imdraw.IMDraw) {
-	imd.Color = colornames.Violet
+	imd.Color = colornames.Orange
 	for _, step := range c.path {
-		c.hex.MoveTo(c.hm.ToScreen(step.X, step.Y))
-		c.hex.DrawTo(imd)
+		c.smallHex.MoveTo(c.hm.ToScreen(step.X, step.Y))
+		c.smallHex.DrawTo(imd)
 	}
 }
 
