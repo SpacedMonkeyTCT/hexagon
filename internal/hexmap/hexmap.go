@@ -39,11 +39,9 @@ func New(mapW, mapH, scrW, scrH int) *HexMap {
 	for c := 0; c < mapW; c++ {
 		walls[c] = make([]bool, mapH)
 	}
-	hex := hexagon.New(size)
-	hex.Outline(4)
 
 	return &HexMap{
-		hex:       hex,
+		hex:       hexagon.New(size),
 		originX:   (scrW - drawW + size) / 2,
 		originY:   (scrH - drawH + offsetY) / 2,
 		offsetX:   offsetX,
@@ -78,8 +76,10 @@ func (hm HexMap) DrawTo(imd *imdraw.IMDraw) {
 		for x := 0; x < hm.MapWidth; x++ {
 			if hm.IsWall(x, y) {
 				imd.Color = colornames.Black
+				hm.hex.Outline(5)
 			} else {
 				imd.Color = colornames.Limegreen
+				hm.hex.Outline(2)
 			}
 			hm.hex.MoveTo(hm.ToScreen(x, y))
 			hm.hex.DrawTo(imd)
