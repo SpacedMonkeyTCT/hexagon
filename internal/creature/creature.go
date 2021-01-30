@@ -43,6 +43,7 @@ func New(hm *hexmap.HexMap, n navigation.Navigation) *Creature {
 		targetY: hm.MapHeight - 1,
 		path:    n.Find(0, hm.MapHeight-2, hm.MapWidth-1, hm.MapHeight-1),
 	}
+	c.hex.Outline(0)
 	c.startWalk()
 	return c
 }
@@ -109,13 +110,11 @@ func (c Creature) DrawTo(imd *imdraw.IMDraw) {
 	} else {
 		c.hex.MoveTo(c.pos)
 	}
-	c.hex.Outline(0)
 	c.hex.DrawTo(imd)
 }
 
 func (c Creature) drawPath(imd *imdraw.IMDraw) {
 	imd.Color = colornames.Violet
-	c.hex.Outline(4)
 	for _, step := range c.path {
 		c.hex.MoveTo(c.hm.ToScreen(step.X, step.Y))
 		c.hex.DrawTo(imd)
@@ -124,7 +123,6 @@ func (c Creature) drawPath(imd *imdraw.IMDraw) {
 
 func (c Creature) drawTarget(imd *imdraw.IMDraw) {
 	imd.Color = colornames.Red
-	c.hex.Outline(4)
 	c.hex.MoveTo(c.hm.ToScreen(c.targetX, c.targetY))
 	c.hex.DrawTo(imd)
 }
