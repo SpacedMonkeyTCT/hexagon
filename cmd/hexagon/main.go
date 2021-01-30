@@ -22,8 +22,8 @@ func main() {
 const (
 	winW        = 1024
 	winH        = 768
-	mapW        = 9
-	mapH        = 8
+	mapW        = 10
+	mapH        = 9
 	msPerUpdate = 10 * time.Millisecond
 )
 
@@ -69,6 +69,7 @@ func setWalls(hm *hexmap.HexMap) {
 	for i := 0; i < wallMax; i++ {
 		x := rand.Intn(mapW)
 		y := rand.Intn(mapH)
-		hm.SetWall(x, y)
+		hm.AddWall(x, y)
 	}
+	hm.RemoveWall(0, 0)
 }

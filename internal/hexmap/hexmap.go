@@ -55,8 +55,12 @@ func New(mapW, mapH, scrW, scrH int) *HexMap {
 	}
 }
 
-func (hm HexMap) SetWall(c, r int) {
+func (hm HexMap) AddWall(c, r int) {
 	hm.walls[c][r] = true
+}
+
+func (hm HexMap) RemoveWall(c, r int) {
+	hm.walls[c][r] = false
 }
 
 func (hm HexMap) IsWall(c, r int) bool {
