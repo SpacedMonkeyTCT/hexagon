@@ -20,8 +20,12 @@ func (n Navigation) Find(fromX, fromY, toX, toY int) []*Node {
 	as := newAstar(end, start)
 
 	var p *Node = nil
-	for p == nil {
+	for i := 0; p == nil && i < len(n.m.node[0]) * len(n.m.node); i++ {
 		p = as.search()
+	}
+
+	if p == nil {
+		return nil
 	}
 
 	path := make([]*Node, 0)
