@@ -20,11 +20,12 @@ func main() {
 }
 
 const (
-	winW        = 1024
-	winH        = 768
-	mapW        = 13
-	mapH        = 12
-	msPerUpdate = 10 * time.Millisecond
+	winW          = 1024
+	winH          = 768
+	mapW          = 13
+	mapH          = 12
+	msPerUpdate   = 10 * time.Millisecond
+	creatureCount = 3
 )
 
 func run() {
@@ -42,7 +43,11 @@ func run() {
 	hm := hexmap.New(mapW, mapH, winW, winH)
 	setWalls(hm)
 	n := navigation.NewNavigation(hm)
-	c := creature.New(hm, n)
+
+	ca := []*creature.Creature{}
+	for i := 0; i < creatureCount; i++ {
+		ca = append(ca, creature.New(hm, n))
+	}
 
 	then := time.Now()
 	lag := time.Duration(0)
@@ -52,12 +57,16 @@ func run() {
 		then = time.Now()
 
 		for lag += elapsed; lag >= msPerUpdate; lag -= msPerUpdate {
-			c.Update()
+			for _, c := range ca {
+				c.Update()
+			}
 		}
 
 		imd.Clear()
 		hm.DrawTo(imd)
-		c.DrawTo(imd)
+		for _, c := range ca {
+			c.DrawTo(imd)
+		}
 		win.Clear(colornames.Aliceblue)
 		imd.Draw(win)
 		win.Update()
